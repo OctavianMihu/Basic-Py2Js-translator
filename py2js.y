@@ -22,6 +22,24 @@ typedef struct Symbol {
 
 Symbol *symbolTable = NULL;
 
+int indentation_level = 0;
+
+void increase_indent() {
+    indentation_level++;
+}
+
+void decrease_indent() {
+    if (indentation_level > 0) {
+        indentation_level--;
+    }
+}
+
+void print_indent() {
+    for (int i = 0; i < indentation_level; i++) {
+        printf("\t");
+    }
+}
+
 bool addSymbol(const char *name) {
     Symbol *current = symbolTable;
     while (current != NULL) {
@@ -54,29 +72,38 @@ bool isSymbol(const char *name) {
     char *str;
 }
 
-%token <str> ID NUMBER ASSIGN OPERATOR COMPARISON IF COLON
-
+%token <str> ID NUMBER ASSIGN OPERATOR COMPARISON IF COLON 
+%type <str> condition
 %%
+
 input:
     /* empty */
     | input line
     ;
 
 line:
-    r '\n' 
-    | '\n' {printf("\n");}
+    statement '\n'
+    | '\n' { printf("\n"); }
     ;
 
-r: ID ASSIGN NUMBER {
+statement:
+    assignment
+    | if_statement 
+    ;
+
+assignment:
+    ID ASSIGN NUMBER {
+        print_indent();
         if (!addSymbol($1)) {
-           printf("%s = %s;\n", $1, $3);
+            printf("%s = %s;\n", $1, $3);
         } else {
-           printf("let %s = %s;\n", $1, $3);
+            printf("let %s = %s;\n", $1, $3);
         }
         free($1);
         free($3);
     }
  | ID ASSIGN ID {
+        print_indent();
         if (!addSymbol($1)) {
             printf("%s = %s;\n", $1, $3);
         } else {
@@ -86,8 +113,9 @@ r: ID ASSIGN NUMBER {
         free($3);
     }
  | ID ASSIGN ID OPERATOR ID {
+        print_indent();
         if (!addSymbol($1)) {
-        printf("%s = %s %s %s;\n", $1, $3, $4, $5);
+            printf("%s = %s %s %s;\n", $1, $3, $4, $5);
         } else {
             printf("let %s = %s %s %s;\n", $1, $3, $4, $5);
         }
@@ -96,10 +124,11 @@ r: ID ASSIGN NUMBER {
         free($4);
         free($5);
     }
- | ID ASSIGN ID COMPARISON ID{
-        if(!addSymbol($1)){
+ | ID ASSIGN ID COMPARISON ID {
+        print_indent();
+        if (!addSymbol($1)) {
             printf("%s = %s %s %s;\n", $1, $3, $4, $5);
-        }else{
+        } else {
             printf("let %s = %s %s %s;\n", $1, $3, $4, $5);
         }
         free($1);
@@ -107,21 +136,14 @@ r: ID ASSIGN NUMBER {
         free($4);
         free($5);
     }
-  | ID COMPARISON ID {
-    printf("%s %s %s;\n", $1, $2, $3);
-  }
-  | ID COMPARISON NUMBER{
-    printf("%s %s %s;\n", $1, $2, $3);
-  }
-  | NUMBER COMPARISON ID{
-    printf("%s %s %s;\n", $1, $2, $3);
-  }
-  | NUMBER COMPARISON NUMBER{
-     printf("%s %s %s;\n", $1, $2, $3);
-  }
-  
-;
+ ;
 
+if_statement:
+    IF condition COLON {printf("if (%s) {", $2);}
+    ;
+condition:
+    ID COMPARISON NUMBER{$$ = strcat(strcat($1, $2), $3);}
+    ;
 %%
 
 void yyerror(const char *s) {
@@ -129,9 +151,6 @@ void yyerror(const char *s) {
 }
 
 int main(int argc, char *argv[]) {
-    /* #if YYDEBUG
-        yydebug = 1;
-    #endif */
     yyparse();
     return 0;
 }

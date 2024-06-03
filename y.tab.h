@@ -58,7 +58,9 @@ extern int yydebug;
     NUMBER = 259,                  /* NUMBER  */
     ASSIGN = 260,                  /* ASSIGN  */
     OPERATOR = 261,                /* OPERATOR  */
-    COMPARISON = 262               /* COMPARISON  */
+    COMPARISON = 262,              /* COMPARISON  */
+    IF = 263,                      /* IF  */
+    COLON = 264                    /* COLON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -72,16 +74,18 @@ extern int yydebug;
 #define ASSIGN 260
 #define OPERATOR 261
 #define COMPARISON 262
+#define IF 263
+#define COLON 264
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 53 "py2js.y"
+#line 71 "py2js.y"
 
     char *str;
 
-#line 85 "y.tab.h"
+#line 89 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

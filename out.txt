@@ -1,12 +1,11 @@
-let x = 5;
-let y = 5;
-x = y;
+let x = 10;
 
-x == y;
+let y = 20;
 
-let h = x > y;
+if (x==10) :
 
-5 < x;
-x > 5;
-6 < 3;
+let a = b;
+if (x>10) :
+
+let c = d;
 
