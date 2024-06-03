@@ -550,16 +550,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   12
+#define YYLAST   17
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  9
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  4
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  10
+#define YYNRULES  13
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  17
+#define YYNSTATES  22
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   262
@@ -610,7 +610,7 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int8 yyrline[] =
 {
        0,    60,    60,    62,    66,    67,    70,    79,    88,    99,
-     110
+     110,   113,   116,   119
 };
 #endif
 
@@ -638,7 +638,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-8)
+#define YYPACT_NINF (-3)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -652,8 +652,9 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -8,     0,    -8,    -3,    -8,    -8,    -7,     2,     4,    -8,
-       3,    -8,    -8,     8,     9,    -8,    -8
+      -3,     0,    -3,     2,     8,    -3,    -3,     6,    -2,     7,
+       9,    -3,    -1,    -3,    -3,    -3,    -3,    -3,    13,    14,
+      -3,    -3
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -661,20 +662,21 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     0,     1,     0,     5,     3,     0,     0,     0,     4,
-       7,     6,    10,     0,     0,     8,     9
+       2,     0,     1,     0,     0,     5,     3,     0,     0,     0,
+       0,     4,     7,     6,    10,    11,    12,    13,     0,     0,
+       8,     9
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -8,    -8,    -8,    -8
+      -3,    -3,    -3,    -3
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     5,     6
+       0,     1,     6,     7
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -682,36 +684,37 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       2,     9,     7,     3,     8,    10,    11,    12,     4,    13,
-      14,    15,    16
+       2,    12,    13,     3,     4,    18,    19,     8,     5,     9,
+      14,    15,    16,    17,    11,    10,    20,    21
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     8,     5,     3,     7,     3,     4,     3,     8,     6,
-       7,     3,     3
+       0,     3,     4,     3,     4,     6,     7,     5,     8,     7,
+       3,     4,     3,     4,     8,     7,     3,     3
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    10,     0,     3,     8,    11,    12,     5,     7,     8,
-       3,     4,     3,     6,     7,     3,     3
+       0,    10,     0,     3,     4,     8,    11,    12,     5,     7,
+       7,     8,     3,     4,     3,     4,     3,     4,     6,     7,
+       3,     3
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,     9,    10,    10,    11,    11,    12,    12,    12,    12,
-      12
+      12,    12,    12,    12
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     0,     2,     2,     1,     3,     3,     5,     5,
-       3
+       3,     3,     3,     3
 };
 
 
@@ -1177,7 +1180,7 @@ yyreduce:
   case 5: /* line: '\n'  */
 #line 67 "py2js.y"
            {printf("\n");}
-#line 1181 "y.tab.c"
+#line 1184 "y.tab.c"
     break;
 
   case 6: /* r: ID ASSIGN NUMBER  */
@@ -1191,7 +1194,7 @@ yyreduce:
         free((yyvsp[-2].str));
         free((yyvsp[0].str));
     }
-#line 1195 "y.tab.c"
+#line 1198 "y.tab.c"
     break;
 
   case 7: /* r: ID ASSIGN ID  */
@@ -1205,7 +1208,7 @@ yyreduce:
         free((yyvsp[-2].str));
         free((yyvsp[0].str));
     }
-#line 1209 "y.tab.c"
+#line 1212 "y.tab.c"
     break;
 
   case 8: /* r: ID ASSIGN ID OPERATOR ID  */
@@ -1221,7 +1224,7 @@ yyreduce:
         free((yyvsp[-1].str));
         free((yyvsp[0].str));
     }
-#line 1225 "y.tab.c"
+#line 1228 "y.tab.c"
     break;
 
   case 9: /* r: ID ASSIGN ID COMPARISON ID  */
@@ -1237,19 +1240,43 @@ yyreduce:
         free((yyvsp[-1].str));
         free((yyvsp[0].str));
     }
-#line 1241 "y.tab.c"
+#line 1244 "y.tab.c"
     break;
 
   case 10: /* r: ID COMPARISON ID  */
 #line 110 "py2js.y"
                      {
-    printf(" %s %s %s;\n", (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
+    printf("%s %s %s;\n", (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
   }
-#line 1249 "y.tab.c"
+#line 1252 "y.tab.c"
+    break;
+
+  case 11: /* r: ID COMPARISON NUMBER  */
+#line 113 "py2js.y"
+                        {
+    printf("%s %s %s;\n", (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
+  }
+#line 1260 "y.tab.c"
+    break;
+
+  case 12: /* r: NUMBER COMPARISON ID  */
+#line 116 "py2js.y"
+                        {
+    printf("%s %s %s;\n", (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
+  }
+#line 1268 "y.tab.c"
+    break;
+
+  case 13: /* r: NUMBER COMPARISON NUMBER  */
+#line 119 "py2js.y"
+                            {
+     printf("%s %s %s;\n", (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
+  }
+#line 1276 "y.tab.c"
     break;
 
 
-#line 1253 "y.tab.c"
+#line 1280 "y.tab.c"
 
       default: break;
     }
@@ -1442,7 +1469,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 115 "py2js.y"
+#line 125 "py2js.y"
 
 
 void yyerror(const char *s) {

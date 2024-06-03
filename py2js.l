@@ -18,6 +18,8 @@
 [+-/*]                                        { yylval.str = strdup(yytext); /*printf("%s\n", "OPERATOR");*/ return OPERATOR;}
 [ \t]+                                        { /* ignore whitespace */ }
 \n                                            { return '\n'; }
+if                                            { return IF;}
+:                                             { return COLON;}
 .                                             { /* ignore other characters */ }
 <<EOF>>                                        { return 0; }
 %%

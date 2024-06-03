@@ -54,7 +54,7 @@ bool isSymbol(const char *name) {
     char *str;
 }
 
-%token <str> ID NUMBER ASSIGN OPERATOR COMPARISON
+%token <str> ID NUMBER ASSIGN OPERATOR COMPARISON IF COLON
 
 %%
 input:
@@ -110,6 +110,16 @@ r: ID ASSIGN NUMBER {
   | ID COMPARISON ID {
     printf("%s %s %s;\n", $1, $2, $3);
   }
+  | ID COMPARISON NUMBER{
+    printf("%s %s %s;\n", $1, $2, $3);
+  }
+  | NUMBER COMPARISON ID{
+    printf("%s %s %s;\n", $1, $2, $3);
+  }
+  | NUMBER COMPARISON NUMBER{
+     printf("%s %s %s;\n", $1, $2, $3);
+  }
+  
 ;
 
 %%
