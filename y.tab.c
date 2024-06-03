@@ -73,6 +73,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#define YYDEBUG 1
 
 extern int yylex();
 extern int yyparse();
@@ -118,7 +119,7 @@ bool isSymbol(const char *name) {
 }
 
 
-#line 122 "y.tab.c"
+#line 123 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -141,7 +142,10 @@ bool isSymbol(const char *name) {
 #  endif
 # endif
 
-
+/* Use api.header.include to #include this header
+   instead of duplicating it here.  */
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -161,7 +165,9 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     ID = 258,                      /* ID  */
     NUMBER = 259,                  /* NUMBER  */
-    ASSIGN = 260                   /* ASSIGN  */
+    ASSIGN = 260,                  /* ASSIGN  */
+    OPERATOR = 261,                /* OPERATOR  */
+    COMPARISON = 262               /* COMPARISON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -173,16 +179,18 @@ extern int yydebug;
 #define ID 258
 #define NUMBER 259
 #define ASSIGN 260
+#define OPERATOR 261
+#define COMPARISON 262
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 52 "py2js.y"
+#line 53 "py2js.y"
 
     char *str;
 
-#line 186 "y.tab.c"
+#line 194 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -197,7 +205,7 @@ extern YYSTYPE yylval;
 int yyparse (void);
 
 
-
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -208,11 +216,13 @@ enum yysymbol_kind_t
   YYSYMBOL_ID = 3,                         /* ID  */
   YYSYMBOL_NUMBER = 4,                     /* NUMBER  */
   YYSYMBOL_ASSIGN = 5,                     /* ASSIGN  */
-  YYSYMBOL_6_n_ = 6,                       /* '\n'  */
-  YYSYMBOL_YYACCEPT = 7,                   /* $accept  */
-  YYSYMBOL_input = 8,                      /* input  */
-  YYSYMBOL_line = 9,                       /* line  */
-  YYSYMBOL_r = 10                          /* r  */
+  YYSYMBOL_OPERATOR = 6,                   /* OPERATOR  */
+  YYSYMBOL_COMPARISON = 7,                 /* COMPARISON  */
+  YYSYMBOL_8_n_ = 8,                       /* '\n'  */
+  YYSYMBOL_YYACCEPT = 9,                   /* $accept  */
+  YYSYMBOL_input = 10,                     /* input  */
+  YYSYMBOL_line = 11,                      /* line  */
+  YYSYMBOL_r = 12                          /* r  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -540,19 +550,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   7
+#define YYLAST   12
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  7
+#define YYNTOKENS  9
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  4
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  7
+#define YYNRULES  10
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  11
+#define YYNSTATES  17
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   260
+#define YYMAXUTOK   262
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -567,7 +577,7 @@ union yyalloc
 static const yytype_int8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       6,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       8,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -592,14 +602,15 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5
+       5,     6,     7
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    59,    59,    61,    65,    66,    69,    78
+       0,    60,    60,    62,    66,    67,    70,    79,    88,    99,
+     110
 };
 #endif
 
@@ -616,7 +627,8 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "ID", "NUMBER",
-  "ASSIGN", "'\\n'", "$accept", "input", "line", "r", YY_NULLPTR
+  "ASSIGN", "OPERATOR", "COMPARISON", "'\\n'", "$accept", "input", "line",
+  "r", YY_NULLPTR
 };
 
 static const char *
@@ -626,7 +638,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-3)
+#define YYPACT_NINF (-8)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -640,8 +652,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,     0,    -3,    -1,    -3,    -3,     1,    -2,    -3,    -3,
-      -3
+      -8,     0,    -8,    -3,    -8,    -8,    -7,     2,     4,    -8,
+       3,    -8,    -8,     8,     9,    -8,    -8
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -649,14 +661,14 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     0,     1,     0,     5,     3,     0,     0,     4,     7,
-       6
+       2,     0,     1,     0,     5,     3,     0,     0,     0,     4,
+       7,     6,    10,     0,     0,     8,     9
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -3,    -3,    -3,    -3
+      -8,    -8,    -8,    -8
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -670,32 +682,36 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       2,     9,    10,     3,     7,     0,     4,     8
+       2,     9,     7,     3,     8,    10,    11,    12,     4,    13,
+      14,    15,    16
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     3,     4,     3,     5,    -1,     6,     6
+       0,     8,     5,     3,     7,     3,     4,     3,     8,     6,
+       7,     3,     3
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     8,     0,     3,     6,     9,    10,     5,     6,     3,
-       4
+       0,    10,     0,     3,     8,    11,    12,     5,     7,     8,
+       3,     4,     3,     6,     7,     3,     3
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     7,     8,     8,     9,     9,    10,    10
+       0,     9,    10,    10,    11,    11,    12,    12,    12,    12,
+      12
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     2,     2,     1,     3,     3
+       0,     2,     0,     2,     2,     1,     3,     3,     5,     5,
+       3
 };
 
 
@@ -1158,9 +1174,29 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
+  case 5: /* line: '\n'  */
+#line 67 "py2js.y"
+           {printf("\n");}
+#line 1181 "y.tab.c"
+    break;
+
   case 6: /* r: ID ASSIGN NUMBER  */
-#line 69 "py2js.y"
+#line 70 "py2js.y"
                     {
+        if (!addSymbol((yyvsp[-2].str))) {
+           printf("%s = %s;\n", (yyvsp[-2].str), (yyvsp[0].str));
+        } else {
+           printf("let %s = %s;\n", (yyvsp[-2].str), (yyvsp[0].str));
+        }
+        free((yyvsp[-2].str));
+        free((yyvsp[0].str));
+    }
+#line 1195 "y.tab.c"
+    break;
+
+  case 7: /* r: ID ASSIGN ID  */
+#line 79 "py2js.y"
+                {
         if (!addSymbol((yyvsp[-2].str))) {
             printf("%s = %s;\n", (yyvsp[-2].str), (yyvsp[0].str));
         } else {
@@ -1169,29 +1205,51 @@ yyreduce:
         free((yyvsp[-2].str));
         free((yyvsp[0].str));
     }
-#line 1173 "y.tab.c"
+#line 1209 "y.tab.c"
     break;
 
-  case 7: /* r: ID ASSIGN ID  */
-#line 78 "py2js.y"
-                {
-        if (!isSymbol((yyvsp[0].str))) {
-            yyerror("Undeclared variable on the right-hand side");
+  case 8: /* r: ID ASSIGN ID OPERATOR ID  */
+#line 88 "py2js.y"
+                            {
+        if (!addSymbol((yyvsp[-4].str))) {
+        printf("%s = %s %s %s;\n", (yyvsp[-4].str), (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
         } else {
-            if (!addSymbol((yyvsp[-2].str))) {
-                printf("%s = %s;\n", (yyvsp[-2].str), (yyvsp[0].str));
-            } else {
-                printf("let %s = %s;\n", (yyvsp[-2].str), (yyvsp[0].str));
-            }
+            printf("let %s = %s %s %s;\n", (yyvsp[-4].str), (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
         }
+        free((yyvsp[-4].str));
         free((yyvsp[-2].str));
+        free((yyvsp[-1].str));
         free((yyvsp[0].str));
     }
-#line 1191 "y.tab.c"
+#line 1225 "y.tab.c"
+    break;
+
+  case 9: /* r: ID ASSIGN ID COMPARISON ID  */
+#line 99 "py2js.y"
+                             {
+        if(!addSymbol((yyvsp[-4].str))){
+            printf("%s = %s %s %s;\n", (yyvsp[-4].str), (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
+        }else{
+            printf("let %s = %s %s %s;\n", (yyvsp[-4].str), (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
+        }
+        free((yyvsp[-4].str));
+        free((yyvsp[-2].str));
+        free((yyvsp[-1].str));
+        free((yyvsp[0].str));
+    }
+#line 1241 "y.tab.c"
+    break;
+
+  case 10: /* r: ID COMPARISON ID  */
+#line 110 "py2js.y"
+                     {
+    printf(" %s %s %s;\n", (yyvsp[-2].str), (yyvsp[-1].str), (yyvsp[0].str));
+  }
+#line 1249 "y.tab.c"
     break;
 
 
-#line 1195 "y.tab.c"
+#line 1253 "y.tab.c"
 
       default: break;
     }
@@ -1384,7 +1442,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 93 "py2js.y"
+#line 115 "py2js.y"
 
 
 void yyerror(const char *s) {
@@ -1392,6 +1450,9 @@ void yyerror(const char *s) {
 }
 
 int main(int argc, char *argv[]) {
+    /* #if YYDEBUG
+        yydebug = 1;
+    #endif */
     yyparse();
     return 0;
 }

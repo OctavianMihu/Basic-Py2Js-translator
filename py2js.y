@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#define YYDEBUG 1
 
 extern int yylex();
 extern int yyparse();
@@ -53,7 +54,7 @@ bool isSymbol(const char *name) {
     char *str;
 }
 
-%token <str> ID NUMBER ASSIGN
+%token <str> ID NUMBER ASSIGN OPERATOR COMPARISON
 
 %%
 input:
@@ -62,11 +63,20 @@ input:
     ;
 
 line:
-    r '\n'
-    | '\n'
+    r '\n' 
+    | '\n' {printf("\n");}
     ;
 
 r: ID ASSIGN NUMBER {
+        if (!addSymbol($1)) {
+           printf("%s = %s;\n", $1, $3);
+        } else {
+           printf("let %s = %s;\n", $1, $3);
+        }
+        free($1);
+        free($3);
+    }
+ | ID ASSIGN ID {
         if (!addSymbol($1)) {
             printf("%s = %s;\n", $1, $3);
         } else {
@@ -75,21 +85,32 @@ r: ID ASSIGN NUMBER {
         free($1);
         free($3);
     }
- | ID ASSIGN ID {
-        if (!isSymbol($3)) {
-            yyerror("Undeclared variable on the right-hand side");
+ | ID ASSIGN ID OPERATOR ID {
+        if (!addSymbol($1)) {
+        printf("%s = %s %s %s;\n", $1, $3, $4, $5);
         } else {
-            if (!addSymbol($1)) {
-                printf("%s = %s;\n", $1, $3);
-            } else {
-                printf("let %s = %s;\n", $1, $3);
-            }
+            printf("let %s = %s %s %s;\n", $1, $3, $4, $5);
         }
         free($1);
         free($3);
+        free($4);
+        free($5);
     }
-  | ID ASSIGN ID '+' ID
- ;
+ | ID ASSIGN ID COMPARISON ID{
+        if(!addSymbol($1)){
+            printf("%s = %s %s %s;\n", $1, $3, $4, $5);
+        }else{
+            printf("let %s = %s %s %s;\n", $1, $3, $4, $5);
+        }
+        free($1);
+        free($3);
+        free($4);
+        free($5);
+    }
+  | ID COMPARISON ID {
+    printf("%s %s %s;\n", $1, $2, $3);
+  }
+;
 
 %%
 
@@ -98,6 +119,9 @@ void yyerror(const char *s) {
 }
 
 int main(int argc, char *argv[]) {
+    /* #if YYDEBUG
+        yydebug = 1;
+    #endif */
     yyparse();
     return 0;
 }

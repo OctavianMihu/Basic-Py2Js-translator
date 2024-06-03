@@ -57,8 +57,8 @@ extern int yydebug;
     ID = 258,                      /* ID  */
     NUMBER = 259,                  /* NUMBER  */
     ASSIGN = 260,                  /* ASSIGN  */
-    ENDL = 261,                    /* ENDL  */
-    END_OF_FILE = 262              /* END_OF_FILE  */
+    OPERATOR = 261,                /* OPERATOR  */
+    COMPARISON = 262               /* COMPARISON  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -70,14 +70,14 @@ extern int yydebug;
 #define ID 258
 #define NUMBER 259
 #define ASSIGN 260
-#define ENDL 261
-#define END_OF_FILE 262
+#define OPERATOR 261
+#define COMPARISON 262
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 18 "py2js.y"
+#line 53 "py2js.y"
 
     char *str;
 
